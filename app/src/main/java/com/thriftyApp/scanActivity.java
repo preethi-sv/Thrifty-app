@@ -1,4 +1,4 @@
-package com.login_signup_screendesign_demo;
+package com.thriftyApp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

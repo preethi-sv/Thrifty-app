@@ -1,17 +1,17 @@
-package com.login_signup_screendesign_demo;
+package com.thriftyApp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class PayActivity extends AppCompatActivity {
+public class TakeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_pay);
+        setContentView (R.layout.activity_take);
 
-        findViewById(R.id.close_pay).setOnClickListener(
+        findViewById(R.id.close_take).setOnClickListener(
                 new View.OnClickListener () {
 
                     @Override

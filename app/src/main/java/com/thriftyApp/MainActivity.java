@@ -1,6 +1,4 @@
-package com.login_signup_screendesign_demo;
-
-import com.login_signup_screendesign_demo.R;
+package com.thriftyApp;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.login_signup_screendesign_demo;
+package com.thriftyApp;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

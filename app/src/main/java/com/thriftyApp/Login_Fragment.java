@@ -1,4 +1,4 @@
-package com.login_signup_screendesign_demo;
+package com.thriftyApp;
 
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
@@ -24,8 +24,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.login_signup_screendesign_demo.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
