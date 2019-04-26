@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TransactionsActivity"
+    android:background="@drawable/darkbg">
+
+    <TextView
+        android:id="@+id/thriftyTitleT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Thrifty"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/homeTextViewT"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/homeTextViewT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="Home"
+        app:layout_constraintEnd_toStartOf="@+id/alertTextViewT"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/alertTextViewT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Alerts"
+        app:layout_constraintBottom_toBottomOf="@+id/homeTextViewT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButtonT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:onClick="FloatingButtonToggle"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertTextViewT"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutT"
+        android:layout_width="304dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonT"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <Button
+            android:id="@+id/scanButtonT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/scan"
+            android:text="scan" />
+
+        <Button
+            android:id="@+id/takeButtonT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/take"
+            android:text="take" />
+
+        <Button
+            android:id="@+id/payButtonT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/pay"
+            android:text="pay" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollViewT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="84dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionsTextViewT"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/janButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Jan" />
+
+            <Button
+                android:id="@+id/febButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Feb" />
+
+            <Button
+                android:id="@+id/marButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Mar" />
+
+            <Button
+                android:id="@+id/aprButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Apr" />
+
+            <Button
+                android:id="@+id/mayButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="May" />
+
+            <Button
+                android:id="@+id/junButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Jun" />
+
+            <Button
+                android:id="@+id/julButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Jul" />
+
+            <Button
+                android:id="@+id/augButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Aug" />
+
+            <Button
+                android:id="@+id/sepButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Sep" />
+
+            <Button
+                android:id="@+id/octButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Oct" />
+
+            <Button
+                android:id="@+id/novButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Nov" />
+
+            <Button
+                android:id="@+id/decButtonT"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:text="Dec" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/transactionsTextViewT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="60dp"
+        android:text="TRANSACTIONS"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+</android.support.constraint.ConstraintLayout>
