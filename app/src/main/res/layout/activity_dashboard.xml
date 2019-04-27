@@ -14,8 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:onClick="FloatingButtonToggle"
@@ -23,20 +21,21 @@
         app:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/expensesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="232dp"
         android:text="EXPENSE"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/homeTextView" />
 
     <TextView
         android:id="@+id/incomeTextView2"
@@ -46,15 +45,15 @@
         android:layout_marginLeft="28dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="188dp"
         android:autoText="true"
         android:text="INCOME"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/expensesTextView"
-        app:layout_constraintHorizontal_bias="0.012"
+        app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/dashboardTextView" />
 
     <TextView
         android:id="@+id/dashboardTextView"
@@ -91,7 +90,7 @@
         android:layout_marginTop="8dp"
         android:text="₹ 3655.00"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
         app:layout_constraintEnd_toEndOf="@+id/expensesTextView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/expensesTextView"
@@ -108,7 +107,7 @@
         android:layout_marginTop="8dp"
         android:text="₹ 16000.00"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
         app:layout_constraintEnd_toEndOf="@+id/incomeTextView2"
         app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="@+id/incomeTextView2"
@@ -118,23 +117,23 @@
     <android.support.v7.widget.GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="368dp"
-        android:layout_height="226dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expense"
-        app:layout_constraintVertical_bias="0.109">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.832">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="253dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -163,6 +162,14 @@
 
             </LinearLayout>
 
+            <ListView
+                android:id="@+id/transactionsListDash"
+                android:layout_width="wrap_content"
+                android:layout_height="134dp"
+                android:layout_marginLeft="5dp"
+                android:scrollbars="none" />
+
+
         </LinearLayout>
     </android.support.v7.widget.GridLayout>
 
@@ -170,17 +177,11 @@
         android:id="@+id/homeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="180dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="24dp"
         android:text="Home"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/thriftyTitle"
-        app:layout_constraintEnd_toStartOf="@+id/alertTextView"
-        app:layout_constraintHorizontal_bias="0.988"
         app:layout_constraintStart_toEndOf="@+id/thriftyTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -190,13 +191,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Alerts"
-        app:layout_constraintBottom_toBottomOf="@+id/homeTextView"
+        app:layout_constraintBottom_toTopOf="@+id/expensesTextView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/homeTextView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.071" />
 
     <LinearLayout
         android:layout_width="304dp"
@@ -206,19 +211,17 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/scanButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/capsule"
             android:drawableLeft="@drawable/scan"
             android:text="scan" />
 
@@ -228,17 +231,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableLeft="@drawable/take"
-            android:ellipsize="middle"
             android:text="take" />
 
         <Button
             android:id="@+id/payButton"
-            android:drawableLeft="@drawable/pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/pay"
             android:text="pay" />
     </LinearLayout>
+
+
 
 
 </android.support.constraint.ConstraintLayout>
