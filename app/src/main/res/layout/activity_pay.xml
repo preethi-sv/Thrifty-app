@@ -47,7 +47,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <android.support.v7.widget.GridLayout
-        android:id="@+id/gridLayout2"
+        android:id="@+id/gridLayoutPay"
         android:layout_width="311dp"
         android:layout_height="238dp"
         android:layout_marginBottom="8dp"
@@ -65,7 +65,7 @@
         app:useDefaultMargins="true">
 
         <ImageView
-            android:id="@+id/transportImageView"
+            android:id="@+id/transportImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/transport1"
@@ -75,7 +75,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/foodImageView"
+            android:id="@+id/foodImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="Food"
@@ -87,7 +87,7 @@
 
 
         <ImageView
-            android:id="@+id/billsImageView"
+            android:id="@+id/billsImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bills1"
@@ -99,7 +99,7 @@
 
 
         <ImageView
-            android:id="@+id/sportsImageView"
+            android:id="@+id/sportsImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="Sports"
@@ -110,7 +110,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/homeImageView"
+            android:id="@+id/homeImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/home1"
@@ -121,7 +121,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/petsImageView"
+            android:id="@+id/petsImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/pets1"
@@ -132,7 +132,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/educationImageView"
+            android:id="@+id/educationImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="Education"
@@ -143,7 +143,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/travelImageView"
+            android:id="@+id/travelImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/travel1"
@@ -153,7 +153,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/beautyImageView"
+            android:id="@+id/beautyImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/beauty1"
@@ -163,7 +163,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/kidsImageView"
+            android:id="@+id/kidsImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/kids1"
@@ -173,7 +173,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/healthImageView"
+            android:id="@+id/healthImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/medicines1"
@@ -183,7 +183,7 @@
             app:layout_rowWeight="1" />
 
         <ImageView
-            android:id="@+id/movieImageView"
+            android:id="@+id/movieImageViewP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/movie1"
@@ -217,7 +217,7 @@
          />
 
     <TextView
-        android:id="@+id/tagTextView"
+        android:id="@+id/tagTextViewPay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -228,9 +228,59 @@
         android:drawableLeft="@drawable/tag"
         android:text=" Tag"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayoutPay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.087"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/ExpenseTextViewPay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD EXPENSE"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/dateTextViewPay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.633" />
+
+    <TextView
+        android:id="@+id/dateTextViewPay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/tagTextViewPay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thriftyTitlePay"
+        app:layout_constraintVertical_bias="0.452" />
+
+    <EditText
+        android:id="@+id/payEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Enter the amount spent"
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayoutPay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.189"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateTextViewPay"
+        app:layout_constraintVertical_bias="0.106" />
 
 </android.support.constraint.ConstraintLayout>

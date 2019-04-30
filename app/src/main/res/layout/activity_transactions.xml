@@ -6,73 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".TransactionsActivity"
     android:background="@drawable/darkbg">
+
     <TextView
         android:id="@+id/thriftyTitleT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Thrifty"
         android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/homeTextViewT"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/transactionsTextViewT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.888" />
 
-    <TextView
-        android:id="@+id/homeTextViewT"
+
+    <LinearLayout
+        android:id="@+id/tabLayoutT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:text="Home"
-        app:layout_constraintEnd_toStartOf="@+id/alertTextViewT"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/alertTextViewT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="20dp"
-        android:text="Alerts"
-        app:layout_constraintBottom_toBottomOf="@+id/homeTextViewT"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/thriftyTitleT"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButtonT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:onClick="FloatingButtonToggle"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alertTextViewT"
-        app:layout_constraintVertical_bias="1.0" />
+        <TextView
+            android:id="@+id/homeTextViewT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="Home"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/alertTextViewT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="Alerts"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayoutT"
-        android:layout_width="304dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -81,7 +77,7 @@
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/floatingActionButtonT"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -110,6 +106,17 @@
             android:layout_weight="1"
             android:drawableLeft="@drawable/pay"
             android:text="pay" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButtonT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="FloatingButtonToggle"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="@color/black" />
+
     </LinearLayout>
 
     <HorizontalScrollView
@@ -124,7 +131,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactionsTextViewT"
-        app:layout_constraintVertical_bias="0.191">
+        app:layout_constraintVertical_bias="0.166">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -232,8 +239,9 @@
 
     <ListView
         android:id="@+id/transactionsListViewT"
-        android:layout_width="345dp"
-        android:layout_height="291dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:padding="5dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutT"

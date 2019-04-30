@@ -23,7 +23,9 @@
         <activity android:name="com.thriftyApp.TakeActivity" />
         <activity android:name="com.thriftyApp.PayActivity" />
         <activity android:name="com.thriftyApp.AlertsActivity" />
-        <activity android:name="com.thriftyApp.TransactionsActivity"></activity>
+        <activity android:name="com.thriftyApp.TransactionsActivity"/>
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="ocr"/>
+
     </application>
 
 </manifest>

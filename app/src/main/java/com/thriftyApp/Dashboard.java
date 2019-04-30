@@ -57,7 +57,7 @@ public class Dashboard extends AppCompatActivity {
         pay.setVisibility (View.INVISIBLE);
 
         flagFloatingButton = false;
-        floatingActionButton = (FloatingActionButton) findViewById (R.id.floatingActionButton2);
+        floatingActionButton = (FloatingActionButton) findViewById (R.id.floatingActionButtonD);
 
 
         scan.setOnClickListener (new View.OnClickListener () {
@@ -123,7 +123,6 @@ public class Dashboard extends AppCompatActivity {
                 Toast.makeText (Dashboard.this,"Hi " + myFriends.get(position), Toast.LENGTH_LONG).show();
             }
         });
-
 
     }
 }

@@ -12,7 +12,7 @@ public class AlertsActivity extends AppCompatActivity {
 
     boolean flagFloatingButton;
     FloatingActionButton floatingActionButton;
-    Button scan, take, pay;
+    Button reminderAdd, budgetAdd ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,17 +20,15 @@ public class AlertsActivity extends AppCompatActivity {
         setContentView (R.layout.activity_alerts);
 
         flagFloatingButton = false;
-        floatingActionButton = (FloatingActionButton) findViewById (R.id.floatingActionButton);
+        floatingActionButton = (FloatingActionButton) findViewById (R.id.floatingActionButtonA);
 
-        scan = (Button) findViewById (R.id.scanButton2);
-        take = (Button) findViewById (R.id.takeButton2);
-        pay = (Button) findViewById (R.id.payButton2);
+        reminderAdd = (Button) findViewById (R.id.remAddButton);
+        budgetAdd = (Button) findViewById (R.id.budgetAddButton);
 
-        scan.setVisibility (View.INVISIBLE);
-        take.setVisibility (View.INVISIBLE);
-        pay.setVisibility (View.INVISIBLE);
+        reminderAdd.setVisibility (View.INVISIBLE);
+        budgetAdd.setVisibility (View.INVISIBLE);
 
-        scan.setOnClickListener (new View.OnClickListener () {
+        reminderAdd.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext (), scanActivity.class);
@@ -38,7 +36,7 @@ public class AlertsActivity extends AppCompatActivity {
             }
         });
 
-        take.setOnClickListener (new View.OnClickListener () {
+        budgetAdd.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext (), TakeActivity.class);
@@ -47,15 +45,8 @@ public class AlertsActivity extends AppCompatActivity {
         });
 
 
-        pay.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext (), PayActivity.class);
-                startActivity (intent);
-            }
-        });
-        TextView home = (TextView) findViewById (R.id.homeTextView2);
-
+        TextView home = (TextView) findViewById (R.id.homeTextViewA);
+        TextView thrifty = (TextView) findViewById (R.id.thriftyTitleA);
         home.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
@@ -65,6 +56,12 @@ public class AlertsActivity extends AppCompatActivity {
             }
         });
 
+        thrifty.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (getApplicationContext (), Dashboard.class);
+            }
+        });
     }
 
     public void FloatingButtonToggle(View view) {
@@ -72,16 +69,14 @@ public class AlertsActivity extends AppCompatActivity {
         if (flagFloatingButton) {
 
             flagFloatingButton = false;
-            scan.setVisibility (View.INVISIBLE);
-            take.setVisibility (View.INVISIBLE);
-            pay.setVisibility (View.INVISIBLE);
+            reminderAdd.setVisibility (View.INVISIBLE);
+            budgetAdd.setVisibility (View.INVISIBLE);
         }
         else {
 
             flagFloatingButton = true;
-            scan.setVisibility (View.VISIBLE);
-            take.setVisibility (View.VISIBLE);
-            pay.setVisibility (View.VISIBLE);
+            reminderAdd.setVisibility (View.VISIBLE);
+            budgetAdd.setVisibility (View.VISIBLE);
         }
 
     }
