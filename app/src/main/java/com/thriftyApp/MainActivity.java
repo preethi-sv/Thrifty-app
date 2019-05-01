@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class MainActivity extends AppCompatActivity {
+
 	private static FragmentManager fragmentManager;
+
+	public DatabaseHelper databaseHelper = new DatabaseHelper (this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +56,12 @@ public class MainActivity extends AppCompatActivity {
 		// Find the tag of sign up and forgot password fragment
 		Fragment SignUp_Fragment = fragmentManager
 				.findFragmentByTag(Utils.SignUp_Fragment);
-		Fragment ForgotPassword_Fragment = fragmentManager
-				.findFragmentByTag(Utils.ForgotPassword_Fragment);
 
 		// Check if both are null or not
 		// If both are not null then replace login fragment else do back pressed
 		// task
 
 		if (SignUp_Fragment != null)
-			replaceLoginFragment();
-		else if (ForgotPassword_Fragment != null)
 			replaceLoginFragment();
 		else
 			super.onBackPressed();
@@ -71,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
 	public void moveToDashBoard() {
 
 		Intent intent = new Intent (getApplicationContext (), Dashboard.class);
-
 		startActivity(intent);
-
 	}
 }

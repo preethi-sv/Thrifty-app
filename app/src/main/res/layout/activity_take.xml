@@ -195,7 +195,7 @@
     </android.support.v7.widget.GridLayout>
 -->
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButtonT"
+        android:id="@+id/floatingActionButtonTake"
         android:src="@drawable/arrowright"
         android:layout_width="49dp"
         android:layout_height="47dp"
@@ -254,7 +254,7 @@
         android:layout_marginTop="96dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintHorizontal_bias="0.142"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/thriftyTitleTake" />
 

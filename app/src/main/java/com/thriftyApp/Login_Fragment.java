@@ -29,15 +29,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login_Fragment extends Fragment implements OnClickListener {
+
 	private static View view;
 
 	private static EditText emailid, password;
 	private static Button loginButton;
-	private static TextView forgotPassword, signUp;
+	private static TextView signUp;
 	private static CheckBox show_hide_password;
 	private static LinearLayout loginLayout;
 	private static Animation shakeAnimation;
 	private static FragmentManager fragmentManager;
+	DatabaseHelper databaseHelper;
 
 	public Login_Fragment() {
 
@@ -46,7 +48,9 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.login_layout, container, false);
+
+        databaseHelper = new DatabaseHelper (getContext ());
+        view = inflater.inflate(R.layout.login_layout, container, false);
 		initViews();
 		setListeners();
 		return view;
@@ -59,7 +63,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		emailid = (EditText) view.findViewById(R.id.login_emailid);
 		password = (EditText) view.findViewById(R.id.login_password);
 		loginButton = (Button) view.findViewById(R.id.loginBtn);
-		forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
 		signUp = (TextView) view.findViewById(R.id.createAccount);
 		show_hide_password = (CheckBox) view.findViewById(R.id.show_hide_password);
 		loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
@@ -72,7 +75,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 		try {
 			ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
 
-			forgotPassword.setTextColor(csl);
 			show_hide_password.setTextColor(csl);
 			signUp.setTextColor(csl);
 		} catch (Exception e) {
@@ -83,7 +85,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 	// Set Listeners
 	private void setListeners() {
 		loginButton.setOnClickListener(this);
-		forgotPassword.setOnClickListener(this);
 		signUp.setOnClickListener(this);
 
 		// Set check listener over checkbox for showing and hiding password
@@ -128,16 +129,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			checkValidation();
 			break;
 
-		case R.id.forgot_password:
-
-			// Replace forgot password fragment with animation
-			fragmentManager
-					.beginTransaction()
-					.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-					.replace(R.id.frameContainer,
-							new ForgotPassword_Fragment(),
-							Utils.ForgotPassword_Fragment).commit();
-			break;
 		case R.id.createAccount:
 
 			// Replace signup frgament with animation
@@ -176,9 +167,20 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 					"Your Email Id is Invalid.");
 		// Else do login and do your stuff
 		else {
-			Toast.makeText (getActivity ( ), "Do Login.", Toast.LENGTH_SHORT).show ();
+
+			String userid = emailid.getText ().toString ();
+			String pass = password.getText ().toString ();
+			String password = databaseHelper.searchPass(userid);
+
+			if (password.equals (pass))
 			((MainActivity)getActivity()).moveToDashBoard ();
+
+			else {
+				loginLayout.startAnimation(shakeAnimation);
+				new CustomToast().Show_Toast(getActivity(), view,
+						"Username and Password does not match.");
+			}
+
 		}
 	}
 }
-

@@ -9,7 +9,6 @@
     <string name="login">LOGIN</string>
     <string name="show_pwd">Show Password</string>
     <string name="hide_pwd">Hide Password</string>
-    <string name="forgot">Forgot password?</string>
     <string name="closebutton">Close Button for Activity</string>
     <string name="newUser">Not a Member yet? Sign Up here.</string>
     <string name="fullName">Full Name</string>

@@ -19,11 +19,13 @@ import android.widget.Toast;
 
 public class SignUp_Fragment extends Fragment implements OnClickListener {
 	private static View view;
-	private static EditText fullName, emailId, mobileNumber, location,
-			password, confirmPassword;
+	private static EditText fullName, emailId, mobileNumber,
+			password, budget, confirmPassword;
 	private static TextView login;
 	private static Button signUpButton;
 	private static CheckBox terms_conditions;
+	DatabaseHelper databaseHelper;
+
 
 	public SignUp_Fragment() {
 
@@ -33,6 +35,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.signup_layout, container, false);
+		 databaseHelper = new DatabaseHelper (getContext ());
 		initViews();
 		setListeners();
 		return view;
@@ -43,8 +46,8 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 		fullName = (EditText) view.findViewById(R.id.fullName);
 		emailId = (EditText) view.findViewById(R.id.userEmailId);
 		mobileNumber = (EditText) view.findViewById(R.id.mobileNumber);
-		location = (EditText) view.findViewById(R.id.location);
 		password = (EditText) view.findViewById(R.id.password);
+		budget = (EditText) view.findViewById(R.id.budget);
 		confirmPassword = (EditText) view.findViewById(R.id.confirmPassword);
 		signUpButton = (Button) view.findViewById(R.id.signUpBtn);
 		login = (TextView) view.findViewById(R.id.already_user);
@@ -93,7 +96,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 		String getFullName = fullName.getText().toString();
 		String getEmailId = emailId.getText().toString();
 		String getMobileNumber = mobileNumber.getText().toString();
-		String getLocation = location.getText().toString();
+		String getBudget = budget.getText().toString();
 		String getPassword = password.getText().toString();
 		String getConfirmPassword = confirmPassword.getText().toString();
 
@@ -105,7 +108,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 		if (getFullName.equals("") || getFullName.length() == 0
 				|| getEmailId.equals("") || getEmailId.length() == 0
 				|| getMobileNumber.equals("") || getMobileNumber.length() == 0
-				|| getLocation.equals("") || getLocation.length() == 0
+				|| getBudget.equals("") || getBudget.length() == 0
 				|| getPassword.equals("") || getPassword.length() == 0
 				|| getConfirmPassword.equals("")
 				|| getConfirmPassword.length() == 0)
@@ -129,9 +132,17 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 					"Please select Terms and Conditions.");
 
 		// Else do signup or do your stuff
-		else
-			Toast.makeText(getActivity(), "Do SignUp.", Toast.LENGTH_SHORT)
-					.show();
+		else {
+
+			Contact c = new Contact ();
+			c.setName (getFullName);
+			c.setEmailId (getEmailId);
+			c.setMobile (Long.parseLong (getMobileNumber));
+			c.setPassword (getPassword);
+			c.setBudget(Long.parseLong (getBudget));
+			databaseHelper.insertContact(c);
+			Toast.makeText(getActivity(), "Do SignUp.", Toast.LENGTH_SHORT).show();
+		}
 
 	}
 }
