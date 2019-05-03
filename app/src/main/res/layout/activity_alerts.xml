@@ -50,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="Home" />
+            android:text="Home"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/alertTextViewA"
@@ -66,13 +67,13 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:orientation="horizontal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="bottom"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -98,8 +99,8 @@
             android:layout_weight="1"
             android:clickable="true"
             android:onClick="FloatingButtonToggle"
-            android:paddingBottom="5dp"
             android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
             android:src="@android:drawable/ic_input_add"
             app:backgroundTint="@color/black" />
 
@@ -109,7 +110,7 @@
     <ListView
         android:id="@+id/alertsList"
         android:layout_width="match_parent"
-        android:layout_height="516dp"
+        android:layout_height="350dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -130,17 +131,18 @@
 
     </ListView>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:fillViewport="true"
+        android:gravity="center"
         android:orientation="vertical"
+        android:padding="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/reminderTitleTextView"
@@ -148,21 +150,30 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="REMINDERS"
-            android:textAlignment="center" />
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:padding="5dp"
+            />
+
         <TextView
             android:id="@+id/budgetDetailsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="Current Budget "
             android:textSize="18sp"
-            android:text="Current Budget " />
+            android:padding="5dp"
+            />
+
         <TextView
             android:id="@+id/alertInsertTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="Spend money thrifty - way ! "
             android:textSize="18sp"
-            android:text="Spend money thrifty - way ! " />
+            android:padding="5dp"
+            />
 
 
     </LinearLayout>

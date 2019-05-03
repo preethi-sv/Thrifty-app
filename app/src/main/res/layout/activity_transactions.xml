@@ -119,7 +119,7 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
+    <LinearLayout
         android:id="@+id/horizontalScrollViewT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -131,98 +131,30 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactionsTextViewT"
-        app:layout_constraintVertical_bias="0.166">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        app:layout_constraintVertical_bias="0.166"
+        android:orientation="horizontal">
 
             <Button
-                android:id="@+id/janButtonT"
+                android:id="@+id/listViewTab"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:text="Jan" />
+                android:layout_weight="1"
+                android:enabled="false"
+                android:onClick="listView"
+                android:text="List View" />
 
             <Button
-                android:id="@+id/febButtonT"
+                android:id="@+id/graphViewTab"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:text="Feb" />
+                android:layout_weight="1"
+                android:onClick="graphView"
+                android:text="Graph View" />
 
-            <Button
-                android:id="@+id/marButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Mar" />
 
-            <Button
-                android:id="@+id/aprButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Apr" />
-
-            <Button
-                android:id="@+id/mayButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="May" />
-
-            <Button
-                android:id="@+id/junButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Jun" />
-
-            <Button
-                android:id="@+id/julButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Jul" />
-
-            <Button
-                android:id="@+id/augButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Aug" />
-
-            <Button
-                android:id="@+id/sepButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Sep" />
-
-            <Button
-                android:id="@+id/octButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Oct" />
-
-            <Button
-                android:id="@+id/novButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Nov" />
-
-            <Button
-                android:id="@+id/decButtonT"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="Dec" />
         </LinearLayout>
-    </HorizontalScrollView>
 
     <TextView
         android:id="@+id/transactionsTextViewT"
@@ -247,6 +179,22 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewT"></ListView>
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewT">
+
+    </ListView>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChartExpenses"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewT">
+
+    </com.github.mikephil.charting.charts.PieChart>
 
 </android.support.constraint.ConstraintLayout>

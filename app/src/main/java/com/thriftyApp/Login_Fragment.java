@@ -1,5 +1,6 @@
 package com.thriftyApp;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,7 +132,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			break;
 
 		case R.id.createAccount:
-
 			// Replace signup frgament with animation
 			fragmentManager
 					.beginTransaction()
@@ -170,11 +171,17 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
 			String userid = emailid.getText ().toString ();
 			String pass = password.getText ().toString ();
-			String password = databaseHelper.searchPass(userid);
+			List<String> data  = databaseHelper.searchPass(userid);
+			String actualPassword = data.get (0);
+			String userId = data.get(1);
+			String budget = data.get(2);
+			if (actualPassword.equals (pass)) {
+				Utils.userId = userId;
+				Utils.budget = Integer.parseInt (budget);
 
-			if (password.equals (pass))
-			((MainActivity)getActivity()).moveToDashBoard ();
-
+				Intent intent = new Intent (getActivity (), Dashboard.class);
+				startActivity (intent);
+			}
 			else {
 				loginLayout.startAnimation(shakeAnimation);
 				new CustomToast().Show_Toast(getActivity(), view,
