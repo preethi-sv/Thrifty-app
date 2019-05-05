@@ -187,26 +187,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 exin = cursor.getString (3);
                 uid = cursor.getString (4);
 
+                if(timeA != null ) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:MM:SS", Locale.getDefault ( ));
+                    Date sourceDate = null;
+                    try {
+                        sourceDate = dateFormat.parse (timeA);
+                    } catch (ParseException e) {
+                        e.printStackTrace ( );
+                    }
+                    SimpleDateFormat targetFormat = new SimpleDateFormat ("EEE, MMM dd, yyyy HH:mm a", Locale.getDefault ( ));
+                    if (sourceDate != null)
+                    {
+                        timeB = targetFormat.format (sourceDate);
+                        timeA = timeB;
+                    }
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS",Locale.getDefault ());
-                Date sourceDate = null;
-                try {
-                    sourceDate = dateFormat.parse(timeA);
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-                SimpleDateFormat targetFormat = new SimpleDateFormat("EEE, MMM dd, yyyy HH:mm a",Locale.getDefault ());
-                timeB = targetFormat.format(sourceDate);
-
-
-                Log.i("PreethisTransaction",tag +" " + amount+ " " + timeB+" " + exin + " "+uid );
+                Log.i("PreethisTransaction",tag +" " + amount+ " " + timeA+" " + exin + " "+uid );
                 if ("0".equals (exin)) {
                    amount = "- ₹ "+ amount;
                 }
                 else
                     amount = " ₹ "+amount;
                 if(tag != null)
-                    list.add("\n" + tag + "\n" + amount + "\n" + timeB + "\n");
+                    list.add("\n" + tag + "\n" + amount + "\n" + timeA + "\n");
             }while(cursor.moveToNext ());
         }
         db.close ();

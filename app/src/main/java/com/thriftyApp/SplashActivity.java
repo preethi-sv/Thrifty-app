@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 1000;
+    private static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
 
         /*from raw folder*/
         Glide.with(this)
-                .load(R.raw.giphy)
+                .load(R.raw.jelly)
                 .into(imageView);
 
         new Handler ().postDelayed (new Runnable ( ) {
