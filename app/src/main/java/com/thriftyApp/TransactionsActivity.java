@@ -1,10 +1,10 @@
 package com.thriftyApp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +12,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -41,6 +39,8 @@ public class TransactionsActivity extends AppCompatActivity  {
     ListView myListView;
     DatabaseHelper databaseHelper;
     PieChart pieChart;
+    TextView title;
+    Button download;
 
     public void FloatingButtonToggle (View view) {
 
@@ -61,6 +61,13 @@ public class TransactionsActivity extends AppCompatActivity  {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent (getApplicationContext (),Dashboard.class);
+        startActivity (intent);
+        finish ();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_transactions);
@@ -68,23 +75,27 @@ public class TransactionsActivity extends AppCompatActivity  {
         databaseHelper = new DatabaseHelper (this);
         databaseHelper.getExpenses ();
 
-        pieChart = (PieChart) findViewById (R.id.pieChartExpenses);
+        pieChart = findViewById (R.id.pieChartExpenses);
         databaseHelper = new DatabaseHelper (this);
-        scan = (Button) findViewById (R.id.scanButtonT);
-        take = (Button) findViewById (R.id.takeButtonT);
-        pay = (Button) findViewById (R.id.payButtonT);
+        scan = findViewById (R.id.scanButtonT);
+        take = findViewById (R.id.takeButtonT);
+        pay =  findViewById (R.id.payButtonT);
+        title = findViewById (R.id.thriftyTitleT);
 
-        list = (Button) findViewById (R.id.listViewTab);
-        graph = (Button) findViewById (R.id.graphViewTab);
+        download = findViewById (R.id.downloadButton);
+        list =  findViewById (R.id.listViewTab);
+        graph =  findViewById (R.id.graphViewTab);
 
         scan.setVisibility (View.INVISIBLE);
         take.setVisibility (View.INVISIBLE);
         pay.setVisibility (View.INVISIBLE);
 
-        myListView = (ListView) findViewById(R.id.transactionsListViewT);
-        TextView alert = (TextView) findViewById (R.id.alertTextViewT);
-        TextView home = (TextView) findViewById (R.id.homeTextViewT);
 
+        myListView = findViewById(R.id.transactionsListViewT);
+        TextView alert =  findViewById (R.id.alertTextViewT);
+        TextView home = findViewById (R.id.homeTextViewT);
+
+        graphView (myListView);
         setTList ();
         scan.setOnClickListener (new View.OnClickListener () {
             @Override
@@ -135,6 +146,15 @@ public class TransactionsActivity extends AppCompatActivity  {
             }
         });
 
+        title.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext (), Dashboard.class);
+                startActivity (intent);
+                finish ();
+            }
+        });
+
         pieChart.setOnChartValueSelectedListener (new OnChartValueSelectedListener ( ) {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
@@ -167,12 +187,14 @@ public class TransactionsActivity extends AppCompatActivity  {
         });
 
         */
+
     }
 
     public  void setTList() {
-        ArrayList<String> transact = databaseHelper.getTransactions (Utils.userId );
-        if (transact == null) {
-            Toast.makeText (TransactionsActivity.this, "No reminders yet.", Toast.LENGTH_LONG).show ( );
+        ArrayList<String> transact = databaseHelper.getTransactions ();
+        if (transact.size () == 0) {
+            Toast.makeText (TransactionsActivity.this, "No transactions yet.", Toast.LENGTH_LONG).show ( );
+            download.setEnabled(false);
 
         } else {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, transact);
@@ -196,7 +218,7 @@ public class TransactionsActivity extends AppCompatActivity  {
         list.setEnabled (true);
         pieChart.setVisibility (View.VISIBLE);
         myListView.setVisibility (View.INVISIBLE);
-
+        setTList ();
         pieChart.setHoleRadius (15f);
         pieChart.setTransparentCircleRadius (15f);
 
@@ -214,23 +236,32 @@ public class TransactionsActivity extends AppCompatActivity  {
         PieData pieData = new PieData (pieDataSet);
         pieChart.setData (pieData);
 
+        pieChart.setCenterText ("Expenses");
+        pieChart.setCenterTextSize (10f);
         pieChart.getLegend ().setEnabled(false);
         pieChart.getDescription ().setEnabled (false);
         pieChart.setEntryLabelColor (Color.BLACK);
         pieChart.setEntryLabelTextSize (10f);
         pieChart.animateXY (1000,1000);
 
-        pieDataSet.setColors (ColorTemplate.VORDIPLOM_COLORS);
+        pieDataSet.setColors (ColorTemplate.LIBERTY_COLORS);
+    }
+    public void pdfGen(View view) {
+        Intent intent = new Intent (getApplicationContext (),Download.class);
+        startActivity(intent);
+        finish ();
     }
 
     public void listView (View view) {
 
         graph.setEnabled (true);
         list.setEnabled (false);
+        setTList ();
         pieChart.setVisibility (View.INVISIBLE);
         myListView.setVisibility (View.VISIBLE);
 
     }
+
 
 }
 

@@ -2,8 +2,6 @@ package com.thriftyApp;
 
 import android.content.Intent;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -36,6 +33,7 @@ public class Dashboard extends AppCompatActivity {
     Button scan, take, pay;
     PieChart pieChart;
     TextView income, expense;
+    TextView userName, logout;
 
     public void FloatingButtonToggle(View view) {
 
@@ -60,26 +58,33 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_dashboard);
 
-        income = (TextView) findViewById (R.id.income);
-        expense = (TextView) findViewById (R.id.expense);
+        income =  findViewById (R.id.income);
+        expense = findViewById (R.id.expense);
+        logout = findViewById (R.id.logoutTextView);
 
-        scan = (Button) findViewById (R.id.scanButton);
-        take = (Button) findViewById (R.id.takeButton);
-        pay = (Button) findViewById (R.id.payButton);
+        scan = findViewById (R.id.scanButton);
+        take = findViewById (R.id.takeButton);
+        pay = findViewById (R.id.payButton);
         scan.setVisibility (View.INVISIBLE);
         take.setVisibility (View.INVISIBLE);
         pay.setVisibility (View.INVISIBLE);
+        pieChart =  findViewById (R.id.pieChart);
 
         databaseHelper = new DatabaseHelper (this);
-        flagFloatingButton = false;
-        floatingActionButton = (FloatingActionButton) findViewById (R.id.floatingActionButtonD);
-        pieChart = (PieChart) findViewById (R.id.pieChart);
+        flagFloatingButton =false;
+        floatingActionButton = findViewById (R.id.floatingActionButtonD);
+
+        databaseHelper.setIncomeExpenses ();
+
+        income.setText ("₹ " + Utils.income);
+        expense.setText ("₹ " + Utils.expense);
 
         scan.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext (), scanActivity.class);
                 startActivity (intent);
+                finish ();
 
             }
         });
@@ -89,87 +94,115 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext (), TakeActivity.class);
                 startActivity (intent);
+                finish ();
             }
         });
 
+        logout.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (getApplicationContext (), MainActivity.class);
+                startActivity (intent);
+                finish ();
+            }
+        });
 
         pay.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext (), PayActivity.class);
                 startActivity (intent);
+                finish ();
             }
         });
 
-        TextView showAll = (TextView) findViewById (R.id.showAllTextView);
+        TextView showAll =  findViewById (R.id.showAllTextView);
         showAll.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext (), TransactionsActivity.class);
                 startActivity (intent);
+                finish ();
 
             }
         });
 
-        TextView alert = (TextView) findViewById (R.id.alertTextView);
+        TextView alert =  findViewById (R.id.alertTextView);
         alert.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(getApplicationContext (), AlertsActivity.class);
                 startActivity (intent);
+                finish ();
             }
         });
 
         getTList();
         getTChart();
     }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("Exit me", true);
+        startActivity(intent);
+        finish();
+    }
 
     public void getTList() {
-        ListView myListView = (ListView) findViewById(R.id.transactionsListDash);
+        ListView myListView = findViewById(R.id.transactionsListDash);
 
-        ArrayList<String> transact = databaseHelper.getTransactions (Utils.userId );
-        List<String> transactMini = new ArrayList<> ();
-        transactMini.add (transact.get(0));
-        transactMini.add (transact.get(1));
-        if (transact == null) {
-            Toast.makeText (Dashboard.this, "No reminders yet.", Toast.LENGTH_LONG).show ( );
+        ArrayList<String> transact = databaseHelper.getTransactions ();
+        if (transact.size ( ) == 0) {
+            Toast.makeText (Dashboard.this, "No transactions yet.", Toast.LENGTH_LONG).show ( );
 
-        } else {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1,transactMini);
+        }
 
-            myListView.setAdapter (arrayAdapter);
+        else {
+            List<String> transactMini = new ArrayList<> ( );
+            transactMini.add (transact.get (0));
+            if (transact.size () >= 2)
+            transactMini.add (transact.get (1));
 
-            myListView.setOnItemClickListener (new AdapterView.OnItemClickListener ( ) {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, transactMini);
 
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                myListView.setAdapter (arrayAdapter);
 
-                    Toast.makeText (Dashboard.this,"Tap *Show All* to view all transactions.", Toast.LENGTH_LONG).show();
-                }
-            });
+                myListView.setOnItemClickListener (new AdapterView.OnItemClickListener ( ) {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Toast.makeText (Dashboard.this, "Tap *Show All* to view all transactions.", Toast.LENGTH_LONG).show ( );
+                    }
+                });
+
         }
     }
 
     public void getTChart() {
 
-        pieChart.setHoleRadius (15f);
-        pieChart.setTransparentCircleRadius (15f);
+        List<PieEntry> value = new ArrayList<> ( );
+        if (Utils.expense != 0 && Utils.income !=0) {
 
-        List<PieEntry> value = new ArrayList<>();
-        value.add (new PieEntry (Utils.expense, "Expenses" ));
-        value.add (new PieEntry (Utils.income, "Income" ));
+            pieChart.setHoleRadius (15f);
+            pieChart.setTransparentCircleRadius (15f);
 
-        PieDataSet pieDataSet = new PieDataSet (value, "Transactions") ;
-        PieData pieData = new PieData (pieDataSet);
-        pieChart.setData (pieData);
+            value.add (new PieEntry (Utils.expense, "Expenses"));
+            value.add (new PieEntry (Utils.income, "Income"));
 
-        pieChart.setContentDescription (null);
-        pieChart.getLegend ().setEnabled (false);
-        pieChart.getDescription ().setEnabled (false);
-        pieChart.setEntryLabelTextSize (10f);
-        pieChart.animateXY (1000,1000);
+            PieDataSet pieDataSet = new PieDataSet (value, "Transactions");
+            PieData pieData = new PieData (pieDataSet);
+            pieChart.setData (pieData);
 
-        pieDataSet.setColors (ColorTemplate.JOYFUL_COLORS);
+            pieChart.setContentDescription (null);
+            pieChart.getLegend ( ).setEnabled (false);
+            pieChart.getDescription ( ).setEnabled (false);
+            pieChart.setEntryLabelTextSize (10f);
+            pieChart.animateXY (1000, 1000);
+
+            pieDataSet.setColors (ColorTemplate.PASTEL_COLORS);
+        }
     }
 }

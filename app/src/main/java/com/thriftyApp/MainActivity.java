@@ -18,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		if( getIntent().getBooleanExtra("Exit me", false)){
+			finish();
+			return; // add this to prevent from doing unnecessary stuffs
+		}
 		fragmentManager = getSupportFragmentManager();
 
 		// If saved instance state is null then replace login fragment
@@ -67,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 			super.onBackPressed();
 	}
 
-	public void moveToDashBoard() {
-
-		Intent intent = new Intent (getApplicationContext (), Dashboard.class);
-		startActivity(intent);
+	public void moveToSplash () {
+		Intent intent = new Intent (getApplicationContext (), SplashActivity.class);
+		startActivity (intent);
+		finish ();
 	}
 }

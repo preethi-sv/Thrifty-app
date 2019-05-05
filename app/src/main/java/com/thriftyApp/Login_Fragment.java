@@ -177,10 +177,11 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			String budget = data.get(2);
 			if (actualPassword.equals (pass)) {
 				Utils.userId = userId;
-				Utils.budget = Integer.parseInt (budget);
+				Utils.budget = budget;
 
-				Intent intent = new Intent (getActivity (), Dashboard.class);
-				startActivity (intent);
+
+				((MainActivity)getActivity()).moveToSplash ();
+
 			}
 			else {
 				loginLayout.startAnimation(shakeAnimation);

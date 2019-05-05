@@ -24,18 +24,17 @@ public class TakeActivity extends AppCompatActivity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_take);
 
-        take = (EditText) findViewById (R.id.takeEditText);
-        tag = (EditText) findViewById (R.id.tagEditTextTake);
+        take =  findViewById (R.id.takeEditText);
+        tag =  findViewById (R.id.tagEditTextTake);
         databaseHelper = new DatabaseHelper (this);
 
-        addIncome = (FloatingActionButton) findViewById (R.id.floatingActionButtonTake);
+        addIncome = findViewById (R.id.floatingActionButtonTake);
         findViewById(R.id.close_take).setOnClickListener(
                 new View.OnClickListener () {
 
                     @Override
                     public void onClick(View arg0) {
-                        finish();
-
+                            onBackPressed ();
                     }
                 });
 
@@ -63,8 +62,15 @@ public class TakeActivity extends AppCompatActivity {
         t.setUid (Integer.parseInt (Utils.userId));
         databaseHelper.insertTransaction (t);
         Toast.makeText (getApplicationContext (),"Added Income", Toast.LENGTH_SHORT).show ();
-        databaseHelper.getTransactions (Utils.userId);
+        databaseHelper.getTransactions ();
         Intent intent = new Intent (getApplicationContext (), TransactionsActivity.class);
         startActivity (intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent (getApplicationContext (),TransactionsActivity.class);
+        startActivity (intent);
+        finish ();
     }
 }

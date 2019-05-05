@@ -32,18 +32,18 @@ public class AlertsActivity extends AppCompatActivity {
         setContentView (R.layout.activity_alerts);
         databaseHelper = new DatabaseHelper (this);
         flagFloatingButton = false;
-        floatingActionButton = (FloatingActionButton) findViewById (R.id.floatingActionButtonA);
-        budgetDetails = (TextView) findViewById (R.id.budgetDetailsTextView);
+        floatingActionButton =  findViewById (R.id.floatingActionButtonA);
+        budgetDetails =  findViewById (R.id.budgetDetailsTextView);
         budgetDetails.setText ("Current Budget : "+ Utils.budget);
 
-        reminderAdd = (Button) findViewById (R.id.remAddButton);
-        budgetAdd = (Button) findViewById (R.id.budgetAddButton);
+        reminderAdd = findViewById (R.id.remAddButton);
+        budgetAdd = findViewById (R.id.budgetAddButton);
 
-        TextView home = (TextView) findViewById (R.id.homeTextViewA);
-        TextView thrifty = (TextView) findViewById (R.id.thriftyTitleA);
+        TextView home = findViewById (R.id.homeTextViewA);
+        TextView thrifty =  findViewById (R.id.thriftyTitleA);
 
-        myListView = (ListView) findViewById (R.id.alertsList);
-
+        myListView = findViewById (R.id.alertsList);
+        setList ();
         reminderAdd.setVisibility (View.INVISIBLE);
         budgetAdd.setVisibility (View.INVISIBLE);
 
@@ -84,7 +84,6 @@ public class AlertsActivity extends AppCompatActivity {
             }
         });
 
-        setList ();
 
 
 /*
@@ -113,10 +112,18 @@ public class AlertsActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent (getApplicationContext (),Dashboard.class);
+        startActivity (intent);
+        finish ();
+    }
+
     public void setList() {
 
-        ArrayList<String> reminder = databaseHelper.getReminders (Utils.userId);
-        if (reminder == null) {
+        ArrayList<String> reminder = databaseHelper.getReminders ();
+        if (reminder.size () == 0) {
             Toast.makeText (AlertsActivity.this, "No reminders yet.", Toast.LENGTH_LONG).show ( );
 
         } else {

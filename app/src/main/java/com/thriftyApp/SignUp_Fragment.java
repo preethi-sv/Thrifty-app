@@ -141,7 +141,8 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 			c.setPassword (getPassword);
 			c.setBudget(Long.parseLong (getBudget));
 			databaseHelper.insertContact(c);
-			Toast.makeText(getActivity(), "Do SignUp.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Login with Email ID and password.", Toast.LENGTH_SHORT).show();
+			new MainActivity().replaceLoginFragment();
 		}
 
 	}

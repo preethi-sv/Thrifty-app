@@ -58,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:alpha="0.25"
             android:padding="10dp"
             android:text="Alerts"
             android:textColor="@color/black" />
@@ -118,6 +119,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:scrollbars="vertical"
@@ -150,7 +152,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="REMINDERS"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textAlignment="center"
             android:padding="5dp"
             />

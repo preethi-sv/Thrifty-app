@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".scanActivity"
-    android:background="@drawable/darkbg">
+    android:orientation="vertical"
+    android:weightSum="5"
+    tools:context="com.thriftyApp.scanActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <SurfaceView
+        android:id="@+id/surfaceView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="15dp">
+        android:layout_height="0dp"
+        android:layout_weight="4" />
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@drawable/billshop" />
-        <Button
-            android:id="@+id/btnProcess"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Process" />
-        <TextView
-            android:id="@+id/txtView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No Text"
-            android:layout_gravity="center"
-            android:textSize="25sp" />
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="No Text Available"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+
+    <Button
+        android:id="@+id/proceedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Proceed"
+        android:onClick="proceedClick"/>
+
+</LinearLayout>

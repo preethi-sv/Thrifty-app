@@ -5,6 +5,15 @@ public class Transactions {
     String tag;
     int tid, uid, exin;
     long amount;
+    String created_at;
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
 
     public int getUid() {
         return uid;

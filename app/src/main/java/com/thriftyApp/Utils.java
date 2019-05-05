@@ -8,8 +8,9 @@ public class Utils {
 	//Fragments Tags
 	public static final String Login_Fragment = "Login_Fragment";
 	public static final String SignUp_Fragment = "SignUp_Fragment";
-	public static String userId = "1";
-	public static int budget = 1000;
-	public static int expense = 3655;
-	public static int income= 16000;
+	public static String userId = "0";
+	public static String budget = "0";
+	public static String userName = "";
+	public static int expense = 0;
+	public static int income= 0;
 }

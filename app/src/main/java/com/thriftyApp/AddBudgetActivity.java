@@ -11,14 +11,14 @@ import java.util.Calendar;
 
 public class AddBudgetActivity extends AppCompatActivity {
 
-    EditText budgetEdit, dateEdit;
+    DatabaseHelper databaseHelper;
+    EditText budgetEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_add_budget);
-
-        budgetEdit = (EditText) findViewById (R.id.describeBudAmountEditText);
-        dateEdit = (EditText) findViewById (R.id.dateBudEditText);
+        databaseHelper = new DatabaseHelper (this);
+        budgetEdit = findViewById (R.id.budAmountEditText);
 
         budgetEdit.setText (Utils.budget);
 
@@ -27,25 +27,35 @@ public class AddBudgetActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View arg0) {
-                        finish();
-
+                       onBackPressed ();
                     }
                 });
 
         findViewById (R.id.floatingActionButtonAddBud).setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
-                if(budgetEdit.getText ().toString ().equals ("") || dateEdit.getText ().toString ().equals (""))
+                if(budgetEdit.getText ().toString ().equals ("") )
                 {
                     Toast.makeText (getApplicationContext (),"Enter valid budget amount and end date.",Toast.LENGTH_SHORT).show ();
                 }
                 else {
-                    Toast.makeText (getApplicationContext ( ), "Added Budget", Toast.LENGTH_SHORT).show ( );
+
+                    Utils.budget = budgetEdit.getText ().toString ();
+                    databaseHelper.changeBudget ();
+                    Toast.makeText (getApplicationContext ( ), "Changed Budget Amount.", Toast.LENGTH_SHORT).show ( );
                     Intent intent = new Intent (getApplicationContext ( ), AlertsActivity.class);
                     startActivity (intent);
                     finish ( );
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent (getApplicationContext (),AlertsActivity.class);
+        startActivity (intent);
+        finish ();
     }
 }

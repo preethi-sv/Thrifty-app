@@ -2,12 +2,12 @@ package com.thriftyApp;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,11 +42,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_ALERT_TIME= "alert_time";
 
     private SQLiteDatabase db;
-    private static final String CREATE_TABLE_SIGNUP = "CREATE TABLE " + TABLE_SIGNUP  + "( " + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL , " + COLUMN_NAME + " TEXT NOT NULL , " + COLUMN_EMAIL +" TEXT NOT NULL , " + COLUMN_MOBILE +" INTEGER NOT NULL, " + COLUMN_BUDGET + " INTEGER NOT NULL, " + COLUMN_PASSWORD + " TEXT NOT NULL );";
+    private static final String CREATE_TABLE_SIGNUP = "CREATE TABLE " + TABLE_SIGNUP  + "( " + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL , " + COLUMN_NAME + " TEXT NOT NULL , " + COLUMN_EMAIL +" TEXT NOT NULL PRIMARY KEY , " + COLUMN_MOBILE +" INTEGER NOT NULL, " + COLUMN_BUDGET + " INTEGER NOT NULL, " + COLUMN_PASSWORD + " TEXT NOT NULL );";
 
-    private static final String CREATE_TABLE_TRANSACTION = "CREATE TABLE " + TABLE_TRANSACT  + "( " + COL_TID + " INTEGER PRIMARY KEY NOT NULL , " + COL_U_ID + " INTEGER NOT NULL, "+ COL_TAG + " TEXT NOT NULL , " + COL_EXIN +" INTEGER NOT NULL, " + COL_DATETIME +" DATETIME  NOT NULL, " + COL_AMOUNT + " INTEGER NOT NULL );";
+    private static final String CREATE_TABLE_TRANSACTION = "CREATE TABLE " + TABLE_TRANSACT  + "( " + COL_TID + " INTEGER PRIMARY KEY NOT NULL , " + COL_U_ID + " INTEGER NOT NULL " + " , " + COL_TAG + " TEXT NOT NULL , " + COL_EXIN +" INTEGER NOT NULL, " + COL_DATETIME +" DATETIME  NOT NULL, " + COL_AMOUNT + " INTEGER NOT NULL );";
 
-    private static final String CREATE_TABLE_ALERTS = "CREATE TABLE " + TABLE_ALERTS  + "( " + COL_ALERT_ID + " INTEGER PRIMARY KEY NOT NULL , " + COL_USER_ID + " INTEGER NOT NULL, "+ COL_ALERT_MESSAGE + " TEXT NOT NULL , " + COL_ALERT_TIME +" DATETIME  NOT NULL );";
+    private static final String CREATE_TABLE_ALERTS = "CREATE TABLE " + TABLE_ALERTS  + "( " + COL_ALERT_ID + " INTEGER PRIMARY KEY NOT NULL , " + COL_USER_ID + " INTEGER NOT NULL " + " , " + COL_ALERT_MESSAGE + " TEXT NOT NULL , " + COL_ALERT_TIME +" DATETIME  NOT NULL );";
 
     @Override
     public void onCreate(SQLiteDatabase db2) {
@@ -110,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String u, id = null, pass = "Not Found", budget = "1000";
         List<String> list = new ArrayList<> ();
         db = this.getReadableDatabase ();
-        String query = "SELECT " + COLUMN_ID + ", " + COLUMN_EMAIL + ", " + COLUMN_PASSWORD +  ", " + COLUMN_BUDGET + " FROM " + TABLE_SIGNUP;
+        String query = "SELECT " + COLUMN_ID + ", " + COLUMN_EMAIL + ", " + COLUMN_PASSWORD +  ", " + COLUMN_NAME + ", " + COLUMN_BUDGET + " FROM " + TABLE_SIGNUP;
         Cursor cursor = db.rawQuery (query, null);
         if (cursor.moveToFirst ()) {
             do {
@@ -119,7 +119,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 if(u.equals (user)) {
                     pass = cursor.getString (2);
                     id = cursor.getString (0);
-                    budget = cursor.getString (3);
+                    budget = cursor.getString (4);
+                    Utils.userName = cursor.getString (3);
                     Log.i("Password & UID",pass + id);
                     break;
                 }
@@ -132,39 +133,164 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close ();
         return list;
     }
-    public ArrayList<String> getTransactions (String user) {
+
+    public Contact getUser () {
+
+        db = this.getReadableDatabase ();
+        Contact c = new Contact ();
+        String query = "SELECT " + COLUMN_ID + ", " + COLUMN_EMAIL + ", " + COLUMN_PASSWORD +  ", " + COLUMN_NAME + ", " + COLUMN_BUDGET +  ", "+COLUMN_MOBILE +  " FROM " + TABLE_SIGNUP + " WHERE " + COLUMN_ID + " = " + Utils.userId + ";";
+        Cursor cursor = db.rawQuery (query, null);
+        if (cursor.moveToFirst ()) {
+
+                c.setId (Integer.parseInt (cursor.getString (0)));
+                c.setEmailId (cursor.getString (1));
+                c.setPassword (cursor.getString (2));
+                c.setMobile (Long.parseLong (cursor.getString (5)));
+                c.setBudget (Integer.parseInt (cursor.getString (4)));
+                c.setName (cursor.getString (3));
+        }
+        return c;
+    }
+
+
+    public int changeBudget () {
+        db = this.getWritableDatabase ();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Contact c = getUser ();
+        c.setBudget (Long.parseLong (Utils.budget));
+        ContentValues values = new ContentValues ();
+        values.put (COLUMN_NAME, c.getName ());
+        values.put (COLUMN_EMAIL, c.getEmailId ());
+        values.put (COLUMN_MOBILE, c.getMobile ());
+        values.put (COLUMN_BUDGET, c.getBudget ());
+        values.put (COLUMN_PASSWORD, c.getPassword ());
+
+        // updating row
+        return db.update(TABLE_SIGNUP, values, COLUMN_ID + " = ?",
+                new String[] { String.valueOf(c.getId ()) });
+
+    }
+    public ArrayList<String> getTransactions () {
 
         ArrayList<String> list = new ArrayList<> ();
         db = this.getReadableDatabase ();
-        String query = "SELECT " + COL_AMOUNT + ", " + COL_TAG + " , " + COL_DATETIME +" , " + COL_EXIN + ", " + COL_U_ID +" FROM " + TABLE_TRANSACT;
+        String query = "SELECT " + COL_AMOUNT + ", " + COL_TAG + " , " + COL_DATETIME +" , " + COL_EXIN + ", " + COL_U_ID +" FROM " + TABLE_TRANSACT +" WHERE " + COL_U_ID + " = " + Utils.userId + " ORDER BY " + COL_DATETIME + " DESC ;" ;
         Cursor cursor = db.rawQuery (query, null);
-        String tag, amount, exin, uid, datee;
+
+        String tag, amount, exin, uid, timeA, timeB;
         if (cursor.moveToFirst ()) {
             do {
                 tag = cursor.getString (1);
                 amount = cursor.getString (0);
-                datee = cursor.getString (2);
+                timeA = cursor.getString (2);
                 exin = cursor.getString (3);
                 uid = cursor.getString (4);
-                Log.i("PreethisTransaction",tag +" " + amount+ " " + datee+" " + exin + " "+uid );
+
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS",Locale.getDefault ());
+                Date sourceDate = null;
+                try {
+                    sourceDate = dateFormat.parse(timeA);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                SimpleDateFormat targetFormat = new SimpleDateFormat("EEE, MMM dd, yyyy HH:mm a",Locale.getDefault ());
+                timeB = targetFormat.format(sourceDate);
+
+
+                Log.i("PreethisTransaction",tag +" " + amount+ " " + timeB+" " + exin + " "+uid );
                 if ("0".equals (exin)) {
                    amount = "- ₹ "+ amount;
                 }
                 else
                     amount = " ₹ "+amount;
-                if (uid.equals (user))
-                    list.add("\n" + tag + "\n" + amount + "\n" + datee + "\n");
+                if(tag != null)
+                    list.add("\n" + tag + "\n" + amount + "\n" + timeB + "\n");
             }while(cursor.moveToNext ());
         }
         db.close ();
         cursor.close ();
         return list;
     }
+
+    public ArrayList<Transactions> getTransactionsPDF () {
+
+        ArrayList<Transactions> list = new ArrayList<> ();
+        db = this.getReadableDatabase ();
+        Transactions t;
+        String query = "SELECT " + COL_AMOUNT + ", " + COL_TAG + " , " + COL_DATETIME +" , " + COL_EXIN + ", " + COL_U_ID +" FROM " + TABLE_TRANSACT +" WHERE " + COL_U_ID + " = " + Utils.userId + " ORDER BY " + COL_DATETIME + " DESC ;" ;
+        Cursor cursor = db.rawQuery (query, null);
+
+        String tag, amount, exin, uid, timeA, timeB;
+        if (cursor.moveToFirst ()) {
+            do {
+                t = new Transactions ();
+                tag = cursor.getString (1);
+                amount = cursor.getString (0);
+                timeA = cursor.getString (2);
+                exin = cursor.getString (3);
+                uid = cursor.getString (4);
+
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS",Locale.getDefault ());
+                Date sourceDate = null;
+                try {
+                    sourceDate = dateFormat.parse(timeA);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                SimpleDateFormat targetFormat = new SimpleDateFormat("EEE, MMM dd, yyyy HH:mm a",Locale.getDefault ());
+                timeB = targetFormat.format(sourceDate);
+
+                Log.i("PreethisTransaction",tag +" " + amount+ " " + timeB+" " + exin + " "+uid );
+                t.setUid (Integer.parseInt (uid));
+                t.setTag (tag);
+                t.setExin (Integer.parseInt (exin));
+                t.setAmount (Integer.parseInt (amount));
+                t.setCreated_at (timeB);
+                list.add (t);
+            }while(cursor.moveToNext ());
+        }
+        db.close ();
+        cursor.close ();
+        return list;
+    }
+
+    public void setIncomeExpenses () {
+        db = this.getReadableDatabase ();
+
+        String query2 = "SELECT " + " SUM(" + COL_AMOUNT + ")" + " FROM " + TABLE_TRANSACT + " WHERE " + COL_U_ID + " = " + Utils.userId + " AND " + COL_EXIN + " = 1 AND " + COL_DATETIME + " > datetime('now', 'start of month');";
+        Cursor c1 = db.rawQuery (query2, null);
+
+        if (c1.moveToFirst ()) {
+            String income = c1.getString (0);
+            if (income != null) {
+                Utils.income = Integer.parseInt (income);
+                Log.i("INCOME", String.valueOf (Utils.income));
+            }
+
+        }
+        c1.close ();
+
+        String query3 = "SELECT " + " SUM(" + COL_AMOUNT + ")" + " FROM " + TABLE_TRANSACT + " WHERE " + COL_U_ID + " = " + Utils.userId + " AND " + COL_EXIN + " = 0 AND " + COL_DATETIME + " > datetime('now', 'start of month');";
+        Cursor c2 = db.rawQuery (query3, null);
+
+        if (c2.moveToFirst () ) {
+            String expense = c2.getString (0);
+            if (expense != null)
+            Utils.expense = Integer.parseInt (expense);
+            Log.i("EXPENSE", String.valueOf (Utils.expense));
+        }
+        c2.close ();
+    }
     public HashMap<String, Integer> getExpenses () {
 
-        HashMap<String, Integer> list = new HashMap<> ();
         db = this.getReadableDatabase ();
-        String query = "SELECT " + " SUM(" + COL_AMOUNT + ")" + ", " + COL_TAG + " FROM " + TABLE_TRANSACT + " WHERE " + COL_U_ID + " = " + Utils.userId + " AND " + COL_EXIN + " = 0 " + " GROUP BY " + COL_TAG;
+
+        HashMap<String, Integer> list = new HashMap<> ();
+
+        String query = "SELECT " + " SUM(" + COL_AMOUNT + ")" + ", " + COL_TAG + " FROM " + TABLE_TRANSACT + " WHERE " + COL_U_ID + " = " + Utils.userId + " AND " + COL_EXIN + " = 0  AND " +  COL_DATETIME + " > datetime('now', 'start of month')" + " GROUP BY " + COL_TAG ;
         Cursor cursor = db.rawQuery (query, null);
         String tag, amount;
         if (cursor.moveToFirst ()) {
@@ -179,32 +305,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close ();
         return list;
     }
-    public ArrayList<String> getReminders (String user) {
+    public ArrayList<String> getReminders () {
 
         db = this.getReadableDatabase ();
         ArrayList<String> list = new ArrayList<> ();
-        String query = "SELECT " + COL_ALERT_TIME + ", " + COL_ALERT_MESSAGE+ " , " + COL_USER_ID  + " FROM " + TABLE_ALERTS;
+        String query = "SELECT " + COL_ALERT_TIME + ", " + COL_ALERT_MESSAGE+ " , " + COL_USER_ID  + " FROM " + TABLE_ALERTS  + " WHERE " + COL_USER_ID + " = " + Utils.userId  + " AND ALERT_TIME " + " > datetime('now')" + " ORDER BY ALERT_TIME ASC"; //+ " BETWEEN  datetime('now', 'start of day') AND datetime('now', 'localtime');";
         Cursor cursor = db.rawQuery (query, null);
-        String timeA, almsg, uid;
+        String timeA, timeB, almsg, uid;
         if (cursor.moveToFirst ()) {
             do {
                 timeA = cursor.getString (0);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS",Locale.getDefault ());
+                Date sourceDate = null;
+                try {
+                    sourceDate = dateFormat.parse(timeA);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                SimpleDateFormat targetFormat = new SimpleDateFormat("EEE, MMM dd, yyyy HH:mm a",Locale.getDefault ());
+                timeB = targetFormat.format(sourceDate);
+
                 almsg = cursor.getString (1);
                 uid = cursor.getString (2);
-                if(uid.equals (user))
-                    list.add("\n" + almsg + "\n" + timeA + "\n");
-                Log.i("PreethisAlert",timeA +" " + almsg+ " "+uid );
+                list.add("\n" + almsg + "\n" + timeB + "\n");
+                Log.i("PreethisAlert",timeB +" " + almsg+ " "+uid );
             }while(cursor.moveToNext ());
         }
         db.close ();
         cursor.close ();
         return list;
+
     }
 
     private static String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "EEE, MMM dd   h:mm a.", Locale.getDefault());
+                "yyyy-MM-dd HH:MM:SS", Locale.getDefault());
         Date date = new Date();
-        return dateFormat.format(date);
+        //String dat = "2019-04-04 12:30:30";
+       return dateFormat.format(date);
+       // return  dat;
     }
+
+
 }

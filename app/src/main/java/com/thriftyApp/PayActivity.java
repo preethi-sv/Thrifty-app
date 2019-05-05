@@ -1,9 +1,12 @@
 package com.thriftyApp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,19 +32,26 @@ public class PayActivity extends AppCompatActivity {
 
 
         databaseHelper = new DatabaseHelper (this);
-        pay = (EditText) findViewById (R.id.payEditText);
-        tag = (EditText) findViewById (R.id.tagEditText);
-        addExpense = (FloatingActionButton) findViewById (R.id.floatingActionButtonPay);
+        pay = findViewById (R.id.payEditText);
+        tag = findViewById (R.id.tagEditText);
+        addExpense =  findViewById (R.id.floatingActionButtonPay);
 
         findViewById(R.id.close_pay).setOnClickListener(
                 new View.OnClickListener () {
 
                     @Override
                     public void onClick(View arg0) {
-                        finish();
+
+                        onBackPressed ();
 
                     }
                 });
+
+        Intent intent = getIntent ();
+        if (intent.getStringExtra ("ocr") != null) {
+            String str = intent.getStringExtra ("ocr");
+            pay.setText (str);
+        }
 
         TextView dateTextView = (TextView) findViewById (R.id.dateTextViewPay);
         String date = new SimpleDateFormat("MMM dd", Locale.getDefault()).format(new Date());
@@ -109,13 +119,13 @@ public class PayActivity extends AppCompatActivity {
         findViewById (R.id.beautyImageViewP).setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
-                tag.setText ("Transport");
+                tag.setText ("Beauty");
             }
         });
         findViewById (R.id.kidsImageViewP).setOnClickListener (new View.OnClickListener ( ) {
             @Override
             public void onClick(View v) {
-                tag.setText ("Travel");
+                tag.setText ("Kids");
             }
         });
         findViewById (R.id.healthImageViewP).setOnClickListener (new View.OnClickListener ( ) {
@@ -135,14 +145,54 @@ public class PayActivity extends AppCompatActivity {
     public void addPay () {
         Transactions t = new Transactions ();
         t.setExin (0);
-        t.setAmount (Long.parseLong (pay.getText ().toString ()));
+        Double d = Double.parseDouble (pay.getText ().toString ());
+        Log.i("Omg", d.toString ());
+        long l = Math.round (d);
+        t.setAmount (l);
         t.setTag (tag.getText ().toString ());
         t.setUid (Integer.parseInt (Utils.userId));
         databaseHelper.insertTransaction (t);
-        databaseHelper.getTransactions (Utils.userId);
-        Toast.makeText (getApplicationContext (),"Added Expense", Toast.LENGTH_SHORT).show ();
-        Intent intent = new Intent (getApplicationContext (), TransactionsActivity.class);
+        databaseHelper.getTransactions ();
+        databaseHelper.setIncomeExpenses ();
+        int exp = Utils.expense;
+        int bud = Integer.parseInt (Utils.budget);
+        Log.i("Alert build", bud*0.5 +" "+ exp);
+        if (exp > (bud/2)) {
+            Toast.makeText (getApplicationContext (),"Added Expense", Toast.LENGTH_SHORT).show ();
+            buildAlertExpense ( );
+        }
+        else {
+            Intent intent = new Intent (getApplicationContext ( ), TransactionsActivity.class);
+            startActivity (intent);
+            finish ( );
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent (getApplicationContext (),TransactionsActivity.class);
         startActivity (intent);
         finish ();
+    }
+
+
+    public void buildAlertExpense () {
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder (this);
+            builder.setCancelable (true);
+            builder.setTitle ("Alert");
+            builder.setMessage ("Spend money wisely. More than half of the allocated budget amount has already been spent in this month." );
+            builder.setPositiveButton ("OK", new DialogInterface.OnClickListener ( ) {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText (getApplicationContext (),"Spend Less, Save more.",Toast.LENGTH_SHORT).show ();
+                    Intent intent = new Intent (getApplicationContext (), TransactionsActivity.class);
+                    startActivity (intent);
+                    finish ();
+                }
+            });
+            builder.show ();
+
     }
 }

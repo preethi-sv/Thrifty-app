@@ -18,11 +18,11 @@ public class AddReminderActivity extends AppCompatActivity {
     public void addRem() {
 
         AlertsTable a = new AlertsTable ();
-        String dateTime = dateText.getText ().toString () + " " + timeText.getText ().toString () + ":00";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy h:mm:ss", Locale.getDefault ( ));
+        String dateTime = dateText.getText ().toString () + " " + timeText.getText ().toString ();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault ( ));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                "YYYY-MM-dd HH:MM:SS", Locale.getDefault());
         Date d = new Date ();
         try {
             d = sdf.parse(dateTime);
@@ -36,7 +36,7 @@ public class AddReminderActivity extends AppCompatActivity {
         a.setMessage (message.getText ().toString ());
         a.setUid (Integer.parseInt (Utils.userId));
         databaseHelper.insertRemainder (a);
-        databaseHelper.getReminders(Utils.userId);
+        databaseHelper.getReminders();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class AddReminderActivity extends AppCompatActivity {
                 new View.OnClickListener ( ) {
                     @Override
                     public void onClick(View arg0) {
-                        finish ( );
+                        onBackPressed ();
                     }
                 });
 
@@ -71,5 +71,13 @@ public class AddReminderActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent (getApplicationContext (),AlertsActivity.class);
+        startActivity (intent);
+        finish ();
     }
 }

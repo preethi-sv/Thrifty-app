@@ -136,22 +136,23 @@
 
             <Button
                 android:id="@+id/listViewTab"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:enabled="true"
                 android:layout_weight="1"
-                android:enabled="false"
                 android:onClick="listView"
-                android:text="List View" />
+                android:text="All Transactions" />
 
             <Button
                 android:id="@+id/graphViewTab"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+                android:enabled="false"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:onClick="graphView"
-                android:text="Graph View" />
+                android:text="EXPENSES PIE CHART " />
 
 
         </LinearLayout>
@@ -176,6 +177,7 @@
         android:padding="5dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -192,9 +194,27 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewT">
 
     </com.github.mikephil.charting.charts.PieChart>
+
+    <Button
+        android:id="@+id/downloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginRight="75dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/transparentbutton"
+        android:onClick="pdfGen"
+        android:text="Download Report"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollViewT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.673"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionsTextViewT"
+        app:layout_constraintVertical_bias="0.692" />
 
 </android.support.constraint.ConstraintLayout>
