@@ -172,23 +172,23 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 			String userid = emailid.getText ().toString ();
 			String pass = password.getText ().toString ();
 			List<String> data  = databaseHelper.searchPass(userid);
-			String actualPassword = data.get (0);
-			String userId = data.get(1);
-			String budget = data.get(2);
-			if (actualPassword.equals (pass)) {
-				Utils.userId = userId;
-				Utils.budget = budget;
-
-
-				((MainActivity)getActivity()).moveToSplash ();
-
-			}
-			else {
-				loginLayout.startAnimation(shakeAnimation);
+			if (data.size () == 0)
 				new CustomToast().Show_Toast(getActivity(), view,
-						"Username and Password does not match.");
+						"Hello, Sign up as user to login.");
+			else {
+				String actualPassword = data.get (0);
+				String userId = data.get (1);
+				String budget = data.get (2);
+				if (actualPassword.equals (pass)) {
+					Utils.userId = userId;
+					Utils.budget = budget;
+					((MainActivity) getActivity ( )).moveToSplash ( );
+				} else {
+					loginLayout.startAnimation (shakeAnimation);
+					new CustomToast ( ).Show_Toast (getActivity ( ), view,
+							"Username and Password does not match.");
+				}
 			}
-
 		}
 	}
 }

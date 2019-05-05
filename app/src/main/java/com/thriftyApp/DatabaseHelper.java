@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_ALERT_TIME= "alert_time";
 
     private SQLiteDatabase db;
-    private static final String CREATE_TABLE_SIGNUP = "CREATE TABLE " + TABLE_SIGNUP  + "( " + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL , " + COLUMN_NAME + " TEXT NOT NULL , " + COLUMN_EMAIL +" TEXT NOT NULL PRIMARY KEY , " + COLUMN_MOBILE +" INTEGER NOT NULL, " + COLUMN_BUDGET + " INTEGER NOT NULL, " + COLUMN_PASSWORD + " TEXT NOT NULL );";
+    private static final String CREATE_TABLE_SIGNUP = "CREATE TABLE " + TABLE_SIGNUP  + "( " + COLUMN_ID + " INTEGER PRIMARY KEY NOT NULL , " + COLUMN_NAME + " TEXT NOT NULL , " + COLUMN_EMAIL +" TEXT NOT NULL , " + COLUMN_MOBILE +" INTEGER NOT NULL, " + COLUMN_BUDGET + " INTEGER NOT NULL, " + COLUMN_PASSWORD + " TEXT NOT NULL );";
 
     private static final String CREATE_TABLE_TRANSACTION = "CREATE TABLE " + TABLE_TRANSACT  + "( " + COL_TID + " INTEGER PRIMARY KEY NOT NULL , " + COL_U_ID + " INTEGER NOT NULL " + " , " + COL_TAG + " TEXT NOT NULL , " + COL_EXIN +" INTEGER NOT NULL, " + COL_DATETIME +" DATETIME  NOT NULL, " + COL_AMOUNT + " INTEGER NOT NULL );";
 
@@ -112,23 +112,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = this.getReadableDatabase ();
         String query = "SELECT " + COLUMN_ID + ", " + COLUMN_EMAIL + ", " + COLUMN_PASSWORD +  ", " + COLUMN_NAME + ", " + COLUMN_BUDGET + " FROM " + TABLE_SIGNUP;
         Cursor cursor = db.rawQuery (query, null);
-        if (cursor.moveToFirst ()) {
-            do {
-                u = cursor.getString (1);
-                Log.i("user",u);
-                if(u.equals (user)) {
-                    pass = cursor.getString (2);
-                    id = cursor.getString (0);
-                    budget = cursor.getString (4);
-                    Utils.userName = cursor.getString (3);
-                    Log.i("Password & UID",pass + id);
-                    break;
-                }
-            }while(cursor.moveToNext ());
+        if (cursor.getCount () > 0) {
+            if (cursor.moveToFirst ( )) {
+                do {
+                    u = cursor.getString (1);
+                    Log.i ("user", u);
+                    if (u.equals (user)) {
+                        pass = cursor.getString (2);
+                        id = cursor.getString (0);
+                        budget = cursor.getString (4);
+                        Utils.userName = cursor.getString (3);
+                        Log.i ("Password & UID", pass + id);
+                        break;
+                    }
+                } while (cursor.moveToNext ( ));
+            }
+            list.add (pass);
+            list.add (id);
+            list.add (budget);
         }
-        list.add(pass);
-        list.add (id);
-        list.add(budget);
         cursor.close ();
         db.close ();
         return list;
@@ -153,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public int changeBudget () {
+    public void changeBudget () {
         db = this.getWritableDatabase ();
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -167,7 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put (COLUMN_PASSWORD, c.getPassword ());
 
         // updating row
-        return db.update(TABLE_SIGNUP, values, COLUMN_ID + " = ?",
+        db.update(TABLE_SIGNUP, values, COLUMN_ID + " = ?",
                 new String[] { String.valueOf(c.getId ()) });
 
     }
@@ -180,38 +182,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String tag, amount, exin, uid, timeA, timeB;
         if (cursor.moveToFirst ()) {
-            do {
-                tag = cursor.getString (1);
-                amount = cursor.getString (0);
-                timeA = cursor.getString (2);
-                exin = cursor.getString (3);
-                uid = cursor.getString (4);
+            if(cursor.getCount () > 0) {
+                do {
+                    tag = cursor.getString (1);
+                    amount = cursor.getString (0);
+                    timeA = cursor.getString (2);
+                    exin = cursor.getString (3);
+                    uid = cursor.getString (4);
 
-                if(timeA != null ) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd HH:MM:SS", Locale.getDefault ( ));
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault ());
                     Date sourceDate = null;
                     try {
-                        sourceDate = dateFormat.parse (timeA);
+                        sourceDate = dateFormat.parse(timeA);
                     } catch (ParseException e) {
-                        e.printStackTrace ( );
+                        e.printStackTrace();
                     }
-                    SimpleDateFormat targetFormat = new SimpleDateFormat ("EEE, MMM dd, yyyy HH:mm a", Locale.getDefault ( ));
-                    if (sourceDate != null)
-                    {
-                        timeB = targetFormat.format (sourceDate);
-                        timeA = timeB;
-                    }
+                    SimpleDateFormat targetFormat = new SimpleDateFormat("EEE, MMM dd, yyyy HH:mm:ss a",Locale.getDefault ());
+                    timeB = targetFormat.format(sourceDate);
 
-                }
-                Log.i("PreethisTransaction",tag +" " + amount+ " " + timeA+" " + exin + " "+uid );
-                if ("0".equals (exin)) {
-                   amount = "- ₹ "+ amount;
-                }
-                else
-                    amount = " ₹ "+amount;
-                if(tag != null)
-                    list.add("\n" + tag + "\n" + amount + "\n" + timeA + "\n");
-            }while(cursor.moveToNext ());
+                    Log.i("PreethisTransaction",tag +" " + amount+ " " + timeB +" " + exin + " "+uid );
+                    if ("0".equals (exin)) {
+                       amount = "- ₹ "+ amount;
+                    }
+                    else
+                        amount = " ₹ "+amount;
+                    if(tag != null)
+                        list.add("\n" + tag + "\n" + amount + "\n" + timeB + "\n");
+                }while(cursor.moveToNext ());
+            }
         }
         db.close ();
         cursor.close ();
@@ -237,7 +236,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 uid = cursor.getString (4);
 
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS",Locale.getDefault ());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault ());
                 Date sourceDate = null;
                 try {
                     sourceDate = dateFormat.parse(timeA);
@@ -320,7 +319,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 timeA = cursor.getString (0);
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM:SS",Locale.getDefault ());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault ());
                 Date sourceDate = null;
                 try {
                     sourceDate = dateFormat.parse(timeA);
@@ -344,12 +343,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:MM:SS", Locale.getDefault());
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         //String dat = "2019-04-04 12:30:30";
        return dateFormat.format(date);
        // return  dat;
     }
-
-
 }
