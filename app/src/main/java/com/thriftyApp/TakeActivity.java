@@ -18,6 +18,7 @@ public class TakeActivity extends AppCompatActivity {
     EditText take, tag;
     DatabaseHelper databaseHelper;
     FloatingActionButton addIncome;
+    TextView thrifty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class TakeActivity extends AppCompatActivity {
         take =  findViewById (R.id.takeEditText);
         tag =  findViewById (R.id.tagEditTextTake);
         databaseHelper = new DatabaseHelper (this);
+        thrifty = findViewById (R.id.thriftyTitleTake);
 
         addIncome = findViewById (R.id.floatingActionButtonTake);
         findViewById(R.id.close_take).setOnClickListener(
@@ -53,6 +55,15 @@ public class TakeActivity extends AppCompatActivity {
             }
         });
 
+        thrifty.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (getApplicationContext (), Dashboard.class);
+                startActivity (intent);
+                finish ();
+            }
+        });
+
     }
     public void addTake () {
         Transactions t = new Transactions ();
@@ -65,6 +76,7 @@ public class TakeActivity extends AppCompatActivity {
         databaseHelper.getTransactions ();
         Intent intent = new Intent (getApplicationContext (), TransactionsActivity.class);
         startActivity (intent);
+        finish ();
     }
 
     @Override

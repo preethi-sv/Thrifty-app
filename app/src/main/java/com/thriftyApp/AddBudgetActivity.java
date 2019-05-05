@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -13,6 +14,7 @@ public class AddBudgetActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
     EditText budgetEdit;
+    TextView thrifty;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -20,6 +22,7 @@ public class AddBudgetActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper (this);
         budgetEdit = findViewById (R.id.budAmountEditText);
 
+        thrifty = findViewById (R.id.thriftyTitleAddBud);
         budgetEdit.setText (Utils.budget);
 
         findViewById(R.id.close_addbud).setOnClickListener(
@@ -30,6 +33,15 @@ public class AddBudgetActivity extends AppCompatActivity {
                        onBackPressed ();
                     }
                 });
+
+        thrifty.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (getApplicationContext (), Dashboard.class);
+                startActivity (intent);
+                finish ();
+            }
+        });
 
         findViewById (R.id.floatingActionButtonAddBud).setOnClickListener (new View.OnClickListener ( ) {
             @Override

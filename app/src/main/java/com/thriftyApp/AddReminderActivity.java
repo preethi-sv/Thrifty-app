@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ public class AddReminderActivity extends AppCompatActivity {
 
     EditText dateText, timeText, message;
     DatabaseHelper databaseHelper;
+    TextView thrifty;
     public void addRem() {
 
         AlertsTable a = new AlertsTable ();
@@ -42,9 +44,10 @@ public class AddReminderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_add_reminder);
-        dateText = (EditText) findViewById (R.id.dateRemEditText);
-        timeText = (EditText) findViewById (R.id.timeRemEditText);
-        message = (EditText) findViewById (R.id.describeReminderEditText);
+        dateText = findViewById (R.id.dateRemEditText);
+        timeText =  findViewById (R.id.timeRemEditText);
+        message = findViewById (R.id.describeReminderEditText);
+        thrifty = findViewById (R.id.thriftyTitleAddRem);
         databaseHelper = new DatabaseHelper (this);
 
         findViewById (R.id.close_addrem).setOnClickListener (
@@ -54,6 +57,16 @@ public class AddReminderActivity extends AppCompatActivity {
                         onBackPressed ();
                     }
                 });
+
+        thrifty.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (getApplicationContext (), Dashboard.class);
+                startActivity (intent);
+                finish ();
+            }
+        });
+
 
         findViewById (R.id.floatingActionButtonAddRem).setOnClickListener (new View.OnClickListener ( ) {
             @Override

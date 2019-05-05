@@ -59,10 +59,6 @@ public class Download extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     createPdfWrapper();
-                    Intent intent = new Intent (getApplicationContext (), TransactionsActivity.class);
-                    Toast.makeText (getApplicationContext (), "Report PDF downloaded successfully.",Toast.LENGTH_SHORT).show ();
-                    startActivity (intent);
-                    finish ();
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -97,6 +93,10 @@ public class Download extends AppCompatActivity {
             }
         } else {
             createPdf();
+            Intent intent = new Intent (getApplicationContext (), TransactionsActivity.class);
+            Toast.makeText (getApplicationContext (), "Report PDF downloaded successfully.",Toast.LENGTH_SHORT).show ();
+            startActivity (intent);
+            finish ();
         }
     }
 

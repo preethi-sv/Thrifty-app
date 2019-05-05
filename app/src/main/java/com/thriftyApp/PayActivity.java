@@ -23,6 +23,7 @@ public class PayActivity extends AppCompatActivity {
     EditText pay, tag;
     FloatingActionButton addExpense;
     DatabaseHelper databaseHelper;
+    TextView thrifty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class PayActivity extends AppCompatActivity {
         tag = findViewById (R.id.tagEditText);
         addExpense =  findViewById (R.id.floatingActionButtonPay);
 
+        thrifty = findViewById (R.id.thriftyTitlePay);
         findViewById(R.id.close_pay).setOnClickListener(
                 new View.OnClickListener () {
 
@@ -53,7 +55,7 @@ public class PayActivity extends AppCompatActivity {
             pay.setText (str);
         }
 
-        TextView dateTextView = (TextView) findViewById (R.id.dateTextViewPay);
+        TextView dateTextView =  findViewById (R.id.dateTextViewPay);
         String date = new SimpleDateFormat("MMM dd", Locale.getDefault()).format(new Date());
         dateTextView.setText (date + ", Expense");
 
@@ -67,6 +69,17 @@ public class PayActivity extends AppCompatActivity {
                     addPay ();
             }
         });
+
+
+        thrifty.setOnClickListener (new View.OnClickListener ( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (getApplicationContext (), Dashboard.class);
+                startActivity (intent);
+                finish ();
+            }
+        });
+
 
         findViewById (R.id.transportImageViewP).setOnClickListener (new View.OnClickListener ( ) {
             @Override
