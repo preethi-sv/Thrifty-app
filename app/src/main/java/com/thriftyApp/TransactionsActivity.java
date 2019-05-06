@@ -242,7 +242,7 @@ public class TransactionsActivity extends AppCompatActivity  {
         pieChart.getDescription ().setEnabled (false);
         pieChart.setEntryLabelColor (Color.BLACK);
         pieChart.setEntryLabelTextSize (10f);
-        pieChart.animateXY (1000,1000);
+        pieChart.animateXY (800,800);
 
         pieDataSet.setColors (ColorTemplate.LIBERTY_COLORS);
     }
@@ -261,7 +261,5 @@ public class TransactionsActivity extends AppCompatActivity  {
         myListView.setVisibility (View.VISIBLE);
 
     }
-
-
 }
 

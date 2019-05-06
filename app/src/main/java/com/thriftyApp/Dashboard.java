@@ -201,7 +201,6 @@ public class Dashboard extends AppCompatActivity {
             pieChart.getDescription ( ).setEnabled (false);
             pieChart.setEntryLabelTextSize (10f);
             pieChart.animateXY (1000, 1000);
-
             pieDataSet.setColors (ColorTemplate.PASTEL_COLORS);
         }
     }

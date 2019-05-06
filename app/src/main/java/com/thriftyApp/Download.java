@@ -1,14 +1,18 @@
 package com.thriftyApp;
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,6 +48,7 @@ public class Download extends AppCompatActivity {
     ArrayList<Transactions> list;
     Transactions transactions;
     Context context;
+    String pdfname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +98,24 @@ public class Download extends AppCompatActivity {
             }
         } else {
             createPdf();
-            Intent intent = new Intent (getApplicationContext (), TransactionsActivity.class);
+            NotificationCompat.Builder builder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.download)
+                            .setContentTitle(pdfname)
+                            .setContentText("Download Completed.");
+
+            Intent notificationIntent = new Intent(this, TransactionsActivity.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(contentIntent);
+
+            // Add as notification
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.notify(0, builder.build());
+
+            Intent intent1 = new Intent (getApplicationContext (), TransactionsActivity.class);
             Toast.makeText (getApplicationContext (), "Report PDF downloaded successfully.",Toast.LENGTH_SHORT).show ();
-            startActivity (intent);
+            startActivity (intent1);
             finish ();
         }
     }
@@ -117,7 +137,8 @@ public class Download extends AppCompatActivity {
             Log.i(TAG, "Created a new directory for PDF");
         }
 
-        String pdfname = "TransactionsReport.pdf";
+        pdfname = "TransactionsReport"+Utils.pdfNumber+".pdf";
+        Utils.pdfNumber = Utils.pdfNumber + 1;
         pdfFile = new File(docsFolder.getAbsolutePath(), pdfname);
         OutputStream output = new FileOutputStream (pdfFile);
         Document document = new Document(PageSize.A4);

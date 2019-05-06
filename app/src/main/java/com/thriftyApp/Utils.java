@@ -13,4 +13,5 @@ public class Utils {
 	public static String userName = "";
 	public static int expense = 0;
 	public static int income= 0;
+	public static int pdfNumber = 1;
 }

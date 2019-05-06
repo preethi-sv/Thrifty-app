@@ -24,7 +24,7 @@ public class AddReminderActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault ( ));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "YYYY-MM-dd HH:MM:SS", Locale.getDefault());
+                "YYYY-MM-dd HH:mm:ss", Locale.getDefault());
         Date d = new Date ();
         try {
             d = sdf.parse(dateTime);
